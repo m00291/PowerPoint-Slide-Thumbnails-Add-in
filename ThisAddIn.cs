@@ -12,9 +12,112 @@ namespace PowerPointSlideThumbnailsAddIn
 {
     public partial class ThisAddIn
     {
+        private PowerPoint.Application pptApp;
+        private PowerPoint.Presentation currentPresentation;
+
+        private Microsoft.Office.Tools.CustomTaskPane navigationTaskPane;
+        private SlideNavigationPane navigationPaneControl;
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            pptApp = this.Application;
+            pptApp.SlideShowBegin += PptApp_SlideShowBegin;
+            pptApp.SlideShowEnd += PptApp_SlideShowEnd;
+            pptApp.WindowSelectionChange += PptApp_WindowSelectionChange;
+        }
+
+        private void PptApp_SlideShowBegin(PowerPoint.SlideShowWindow Wn)
+        {
+            try
+            {
+                currentPresentation = Wn.Presentation;
+                var window = currentPresentation.Windows[1];
+                window.ViewType = PowerPoint.PpViewType.ppViewSlideSorter;
+
+                // Show navigation task pane
+                if (navigationPaneControl == null)
+                {
+                    navigationPaneControl = new SlideNavigationPane();
+                    navigationPaneControl.LeftArrowClicked += NavigationPaneControl_LeftArrowClicked;
+                    navigationPaneControl.RightArrowClicked += NavigationPaneControl_RightArrowClicked;
+                }
+                if (navigationTaskPane == null)
+                {
+                    navigationTaskPane = this.CustomTaskPanes.Add(navigationPaneControl, "Slide Navigation");
+                    navigationTaskPane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
+                    navigationTaskPane.Width = 320;
+                }
+                navigationTaskPane.Visible = true;
+            }
+            catch { }
+        }
+
+        private void PptApp_SlideShowEnd(PowerPoint.Presentation Pres)
+        {
+            try
+            {
+                if (currentPresentation != null)
+                {
+                    var window = currentPresentation.Windows[1];
+                    window.ViewType = PowerPoint.PpViewType.ppViewNormal;
+                }
+                // Hide and remove navigation task pane
+                if (navigationTaskPane != null)
+                {
+                    navigationTaskPane.Visible = false;
+                    this.CustomTaskPanes.Remove(navigationTaskPane);
+                    navigationTaskPane = null;
+                }
+            }
+            catch { }
+        }
+
+        private void NavigationPaneControl_LeftArrowClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (pptApp.SlideShowWindows.Count > 0)
+                {
+                    var view = pptApp.SlideShowWindows[1].View;
+                    view.Previous();
+                }
+            }
+            catch { }
+        }
+
+        private void NavigationPaneControl_RightArrowClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (pptApp.SlideShowWindows.Count > 0)
+                {
+                    var view = pptApp.SlideShowWindows[1].View;
+                    view.Next();
+                }
+            }
+            catch { }
+        }
+
+        private void PptApp_WindowSelectionChange(PowerPoint.Selection Sel)
+        {
+            try
+            {
+                // Only act if in Slide Sorter view and a slide is selected
+                if (currentPresentation != null && currentPresentation.Windows[1].ViewType == PowerPoint.PpViewType.ppViewSlideSorter)
+                {
+                    if (Sel.Type == PowerPoint.PpSelectionType.ppSelectionSlides && Sel.SlideRange != null && Sel.SlideRange.Count > 0)
+                    {
+                        var slideIndex = Sel.SlideRange[1].SlideIndex;
+                        // Find the running slideshow window
+                        if (pptApp.SlideShowWindows.Count > 0)
+                        {
+                            var slideShowView = pptApp.SlideShowWindows[1].View;
+                            slideShowView.GotoSlide(slideIndex);
+                        }
+                    }
+                }
+            }
+            catch { }
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
