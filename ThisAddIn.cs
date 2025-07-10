@@ -21,7 +21,6 @@ namespace PowerPointSlideThumbnailsAddIn
 
         private const int TaskPaneBottomHeight = 140; // Height for bottom dock
         private const int TaskPaneRightWidth = 280;   // Width for right dock
-        private const int TaskPaneDefaultHeight = 400;  // Default height for right dock
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
@@ -68,29 +67,18 @@ namespace PowerPointSlideThumbnailsAddIn
                     navigationPaneControl.RightArrowClicked += NavigationPaneControl_RightArrowClicked;
                     navigationPaneControl.EndButtonClicked += NavigationPaneControl_EndButtonClicked;
                     navigationPaneControl.DockToBottomClicked += NavigationPaneControl_DockToBottomClicked;
+                    navigationPaneControl.DockToRightClicked += NavigationPaneControl_DockToRightClicked;
                 }
                 if (navigationTaskPane == null)
                 {
                     navigationTaskPane = this.CustomTaskPanes.Add(navigationPaneControl, " ");
                     navigationTaskPane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
                     navigationTaskPane.Width = TaskPaneRightWidth;
-                    //navigationTaskPane.Height = TaskPaneRightHeight;
                 }
                 navigationTaskPane.Visible = true;
                 // Show/hide DockToBottom button based on dock position
                 bool isBottom = navigationTaskPane.DockPosition == Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionBottom;
-                bool isRight = navigationTaskPane.DockPosition == Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
-                navigationPaneControl.SetDockToBottomButtonVisible(!isBottom);
-                navigationPaneControl.UpdateEndButtonLayoutForDock(isBottom);
-                if (isBottom)
-                {
-                    navigationTaskPane.Height = TaskPaneBottomHeight;
-                }
-                else
-                {
-                    navigationTaskPane.Width = TaskPaneRightWidth;
-                    navigationTaskPane.Height = TaskPaneDefaultHeight;
-                }
+                navigationPaneControl.UpdateButtonLayoutForDock(isBottom);
             }
             catch { }
         }
@@ -112,9 +100,18 @@ namespace PowerPointSlideThumbnailsAddIn
             if (navigationTaskPane != null)
             {
                 navigationTaskPane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionBottom;
-                navigationPaneControl.SetDockToBottomButtonVisible(false);
-                navigationPaneControl.UpdateEndButtonLayoutForDock(true);
+                navigationPaneControl.UpdateButtonLayoutForDock(true);
                 navigationTaskPane.Height = TaskPaneBottomHeight;
+            }
+        }
+
+        private void NavigationPaneControl_DockToRightClicked(object sender, EventArgs e)
+        {
+            if (navigationTaskPane != null)
+            {
+                navigationTaskPane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
+                navigationPaneControl.UpdateButtonLayoutForDock(false);
+                navigationTaskPane.Width = TaskPaneRightWidth;
             }
         }
 

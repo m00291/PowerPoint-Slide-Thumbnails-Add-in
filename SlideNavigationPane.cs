@@ -99,7 +99,7 @@ namespace PowerPointSlideThumbnailsAddIn
             if (_fontLoaded)
             {
                 this.btnEnd.Font = new Font(_privateFonts.Families[0], 36, FontStyle.Regular, GraphicsUnit.Point);
-                this.btnEnd.Text = "\uf2f6"; // Material Icons: cancel_presentation
+                this.btnEnd.Text = "\uf2f6"; // Material Icons: computer_cancel
             }
             else
             {
@@ -118,7 +118,7 @@ namespace PowerPointSlideThumbnailsAddIn
             // btnDockBottom
             // 
             this.btnDockBottom.Font = new Font(_privateFonts.Families[0], 20, FontStyle.Regular, GraphicsUnit.Point);
-            this.btnDockBottom.Text = "\uf72a"; // Dock to bottom icon
+            this.btnDockBottom.Text = "\uf72a"; // Material Icons: bottom_panel_close
             this.btnDockBottom.Width = 280;
             this.btnDockBottom.Height = 60;
             this.btnDockBottom.Left = 0;
@@ -132,7 +132,7 @@ namespace PowerPointSlideThumbnailsAddIn
             // btnDockRight
             // 
             this.btnDockRight.Font = new Font(_privateFonts.Families[0], 20, FontStyle.Regular, GraphicsUnit.Point);
-            this.btnDockRight.Text = "\uf705";
+            this.btnDockRight.Text = "\uf705"; // Material Icons: right_panel_close
             this.btnDockRight.Width = 60; // Swapped width and height
             this.btnDockRight.Height = 103;
             this.btnDockRight.Top = 25;
@@ -163,13 +163,7 @@ namespace PowerPointSlideThumbnailsAddIn
             };
         }
 
-        public void SetDockToBottomButtonVisible(bool visible)
-        {
-            if (btnDockBottom != null)
-                btnDockBottom.Visible = visible;
-        }
-
-        public void UpdateEndButtonLayoutForDock(bool isDockedBottom)
+        public void UpdateButtonLayoutForDock(bool isDockedBottom)
         {
             if (isDockedBottom)
             {
