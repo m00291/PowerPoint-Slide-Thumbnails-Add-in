@@ -63,6 +63,7 @@ namespace PowerPointSlideThumbnailsAddIn
                     navigationPaneControl.LeftArrowClicked += NavigationPaneControl_LeftArrowClicked;
                     navigationPaneControl.RightArrowClicked += NavigationPaneControl_RightArrowClicked;
                     navigationPaneControl.EndButtonClicked += NavigationPaneControl_EndButtonClicked;
+                    navigationPaneControl.DockToBottomClicked += NavigationPaneControl_DockToBottomClicked;
                 }
                 if (navigationTaskPane == null)
                 {
@@ -71,6 +72,10 @@ namespace PowerPointSlideThumbnailsAddIn
                     navigationTaskPane.Width = 280;
                 }
                 navigationTaskPane.Visible = true;
+                // Show/hide DockToBottom button based on dock position
+                bool isBottom = navigationTaskPane.DockPosition == Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionBottom;
+                navigationPaneControl.SetDockToBottomButtonVisible(!isBottom);
+                navigationPaneControl.UpdateEndButtonLayoutForDock(isBottom);
             }
             catch { }
         }
@@ -85,6 +90,16 @@ namespace PowerPointSlideThumbnailsAddIn
                 }
             }
             catch { }
+        }
+
+        private void NavigationPaneControl_DockToBottomClicked(object sender, EventArgs e)
+        {
+            if (navigationTaskPane != null)
+            {
+                navigationTaskPane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionBottom;
+                navigationPaneControl.SetDockToBottomButtonVisible(false);
+                navigationPaneControl.UpdateEndButtonLayoutForDock(true);
+            }
         }
 
         private void PptApp_SlideShowEnd(PowerPoint.Presentation Pres)

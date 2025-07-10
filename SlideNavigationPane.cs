@@ -12,12 +12,14 @@ namespace PowerPointSlideThumbnailsAddIn
         public event EventHandler LeftArrowClicked;
         public event EventHandler RightArrowClicked;
         public event EventHandler EndButtonClicked;
+        public event EventHandler DockToBottomClicked;
 
         private PrivateFontCollection _privateFonts = new PrivateFontCollection();
         private bool _fontLoaded = false;
         private Button btnLeft;
         private Button btnRight;
         private Button btnEnd;
+        private Button btnDockBottom;
         private Panel linePanel;
 
         public SlideNavigationPane()
@@ -42,6 +44,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnLeft = new Button();
             this.btnRight = new Button();
             this.btnEnd = new Button();
+            this.btnDockBottom = new Button();
             this.linePanel = new Panel();
             // 
             // btnLeft
@@ -111,14 +114,52 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnEnd.FlatAppearance.BorderSize = 0;
             this.btnEnd.Click += (s, e) => EndButtonClicked?.Invoke(this, EventArgs.Empty);
             // 
+            // btnDockBottom
+            // 
+            this.btnDockBottom.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            this.btnDockBottom.Text = "Dock to Bottom";
+            this.btnDockBottom.Width = 200;
+            this.btnDockBottom.Height = 40;
+            this.btnDockBottom.Left = 20;
+            this.btnDockBottom.Top = 200;
+            this.btnDockBottom.TextAlign = ContentAlignment.MiddleCenter;
+            this.btnDockBottom.Click += (s, e) => DockToBottomClicked?.Invoke(this, EventArgs.Empty);
+            // 
             // SlideNavigationPane
             // 
             this.Controls.Add(this.btnLeft);
             this.Controls.Add(this.btnRight);
             this.Controls.Add(this.linePanel);
             this.Controls.Add(this.btnEnd);
+            this.Controls.Add(this.btnDockBottom);
             this.Width = 240;
-            this.Height = _fontLoaded ? 230 : 210;
+            this.Height = _fontLoaded ? 270 : 250;
+        }
+
+        public void SetDockToBottomButtonVisible(bool visible)
+        {
+            if (btnDockBottom != null)
+                btnDockBottom.Visible = visible;
+        }
+
+        public void UpdateEndButtonLayoutForDock(bool isDockedBottom)
+        {
+            if (isDockedBottom)
+            {
+                // Place End button to the right of the arrows
+                btnEnd.Left = btnRight.Right + 10;
+                btnEnd.Top = btnRight.Top;
+                btnEnd.Width = 80;
+                btnEnd.Height = btnRight.Height;
+            }
+            else
+            {
+                // Restore original position
+                btnEnd.Left = 140;
+                btnEnd.Top = 110;
+                btnEnd.Width = 120;
+                btnEnd.Height = 80;
+            }
         }
     }
 }
