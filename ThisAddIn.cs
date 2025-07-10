@@ -17,6 +17,7 @@ namespace PowerPointSlideThumbnailsAddIn
 
         private Microsoft.Office.Tools.CustomTaskPane navigationTaskPane;
         private SlideNavigationPane navigationPaneControl;
+        private bool isSyncingSelection = false;
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
@@ -24,6 +25,7 @@ namespace PowerPointSlideThumbnailsAddIn
             pptApp.SlideShowBegin += PptApp_SlideShowBegin;
             pptApp.SlideShowEnd += PptApp_SlideShowEnd;
             pptApp.WindowSelectionChange += PptApp_WindowSelectionChange;
+            pptApp.SlideShowNextSlide += PptApp_SlideShowNextSlide;
         }
 
         private void PptApp_SlideShowBegin(PowerPoint.SlideShowWindow Wn)
@@ -132,10 +134,31 @@ namespace PowerPointSlideThumbnailsAddIn
             catch { }
         }
 
+        private void PptApp_SlideShowNextSlide(PowerPoint.SlideShowWindow Wn)
+        {
+            try
+            {
+                if (currentPresentation != null && currentPresentation.Windows.Count > 0)
+                {
+                    var window = currentPresentation.Windows[1];
+                    if (window.ViewType == PowerPoint.PpViewType.ppViewSlideSorter)
+                    {
+                        int slideIndex = Wn.View.CurrentShowPosition;
+                        isSyncingSelection = true;
+                        window.View.GotoSlide(slideIndex);
+                        window.Selection.SlideRange.Select();
+                        isSyncingSelection = false;
+                    }
+                }
+            }
+            catch { isSyncingSelection = false; }
+        }
+
         private void PptApp_WindowSelectionChange(PowerPoint.Selection Sel)
         {
             try
             {
+                if (isSyncingSelection) return;
                 // Only act if in Slide Sorter view and a slide is selected
                 if (currentPresentation != null && currentPresentation.Windows[1].ViewType == PowerPoint.PpViewType.ppViewSlideSorter)
                 {
