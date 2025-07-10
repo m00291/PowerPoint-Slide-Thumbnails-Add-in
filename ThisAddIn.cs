@@ -207,6 +207,33 @@ namespace PowerPointSlideThumbnailsAddIn
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
+            // Unsubscribe from PowerPoint events
+            if (pptApp != null)
+            {
+                pptApp.SlideShowBegin -= PptApp_SlideShowBegin;
+                pptApp.SlideShowEnd -= PptApp_SlideShowEnd;
+                pptApp.WindowSelectionChange -= PptApp_WindowSelectionChange;
+                pptApp.SlideShowNextSlide -= PptApp_SlideShowNextSlide;
+            }
+
+            // Remove and dispose of navigation task pane and control
+            if (navigationTaskPane != null)
+            {
+                try
+                {
+                    navigationTaskPane.Visible = false;
+                    this.CustomTaskPanes.Remove(navigationTaskPane);
+                }
+                catch { }
+                navigationTaskPane = null;
+            }
+            if (navigationPaneControl != null)
+            {
+                navigationPaneControl.Dispose();
+                navigationPaneControl = null;
+            }
+            currentPresentation = null;
+            pptApp = null;
         }
 
         #region VSTO generated code
