@@ -22,6 +22,7 @@ namespace PowerPointSlideThumbnailsAddIn
         private Button btnEnd;
         private Button btnDockBottom;
         private Button btnDockRight;
+        private Button btnBackToGrid;
         private Panel linePanel;
 
         public SlideNavigationPane()
@@ -48,6 +49,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnEnd = new Button();
             this.btnDockBottom = new Button();
             this.btnDockRight = new Button();
+            this.btnBackToGrid = new Button();
             this.linePanel = new Panel();
             // 
             // btnLeft
@@ -94,6 +96,24 @@ namespace PowerPointSlideThumbnailsAddIn
             this.linePanel.Top = 90;
             this.linePanel.BackColor = Color.LightGray;
             // 
+            // btnBackToGrid
+            // 
+            if (_fontLoaded)
+            {
+                this.btnBackToGrid.Font = new Font(_privateFonts.Families[0], 40, FontStyle.Regular, GraphicsUnit.Point);
+                this.btnBackToGrid.Text = "\ue9b0"; // Material Icons: grid_view
+            }
+            else
+            {
+                this.btnBackToGrid.Font = new Font("Calibri", 24F, FontStyle.Bold);
+                this.btnBackToGrid.Text = "Grid";
+            }
+            this.btnBackToGrid.Width = 120;
+            this.btnBackToGrid.Height = 80;
+            this.btnBackToGrid.Left = 10;
+            this.btnBackToGrid.Top = 100;
+            this.btnBackToGrid.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // btnEnd
             // 
             if (_fontLoaded)
@@ -109,7 +129,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnEnd.Width = 120;
             this.btnEnd.Height = 80;
             this.btnEnd.Left = 140;
-            this.btnEnd.Top = 100;
+            this.btnEnd.Top = 190;
             this.btnEnd.TextAlign = ContentAlignment.MiddleCenter;
             this.btnEnd.FlatStyle = FlatStyle.Flat;
             this.btnEnd.FlatAppearance.BorderSize = 0;
@@ -153,8 +173,9 @@ namespace PowerPointSlideThumbnailsAddIn
             this.Controls.Add(this.btnEnd);
             this.Controls.Add(this.btnDockBottom);
             this.Controls.Add(this.btnDockRight);
+            this.Controls.Add(this.btnBackToGrid);
             this.Width = 240;
-            this.Height = _fontLoaded ? 270 : 250;
+            this.Height = _fontLoaded ? 300 : 280;
             // Ensure btnDockBottom and btnDockRight stay at the bottom on resize
             this.Resize += (s, e) =>
             {
@@ -170,11 +191,13 @@ namespace PowerPointSlideThumbnailsAddIn
                 btnLeft.Left = 50;
                 btnRight.Left = btnLeft.Right + 10;
 
+                // Place Back to Grid button to the right of the arrows
+                btnBackToGrid.Left = btnRight.Right + 100;
+                btnBackToGrid.Top = btnRight.Top;
+
                 // Place End button to the right of the arrows
-                btnEnd.Left = btnRight.Right + 100;
+                btnEnd.Left = btnBackToGrid.Right + 100;
                 btnEnd.Top = btnRight.Top;
-                btnEnd.Width = 120;
-                btnEnd.Height = btnRight.Height;
 
                 linePanel.Visible = false;
 
@@ -187,10 +210,11 @@ namespace PowerPointSlideThumbnailsAddIn
                 btnRight.Left = btnLeft.Right + 10;
 
                 // Restore original position
+                btnBackToGrid.Left = 10;
+                btnBackToGrid.Top = 100;
+
                 btnEnd.Left = 140;
-                btnEnd.Top = 110;
-                btnEnd.Width = 120;
-                btnEnd.Height = 80;
+                btnEnd.Top = 190;
 
                 linePanel.Visible = true;
 
