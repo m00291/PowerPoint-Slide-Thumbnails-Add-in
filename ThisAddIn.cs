@@ -19,6 +19,10 @@ namespace PowerPointSlideThumbnailsAddIn
         private SlideNavigationPane navigationPaneControl;
         private bool isSyncingSelection = false;
 
+        private const int TaskPaneBottomHeight = 140; // Height for bottom dock
+        private const int TaskPaneRightWidth = 280;   // Width for right dock
+        private const int TaskPaneDefaultHeight = 400;  // Default height for right dock
+
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             pptApp = this.Application;
@@ -69,13 +73,24 @@ namespace PowerPointSlideThumbnailsAddIn
                 {
                     navigationTaskPane = this.CustomTaskPanes.Add(navigationPaneControl, " ");
                     navigationTaskPane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
-                    navigationTaskPane.Width = 280;
+                    navigationTaskPane.Width = TaskPaneRightWidth;
+                    //navigationTaskPane.Height = TaskPaneRightHeight;
                 }
                 navigationTaskPane.Visible = true;
                 // Show/hide DockToBottom button based on dock position
                 bool isBottom = navigationTaskPane.DockPosition == Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionBottom;
+                bool isRight = navigationTaskPane.DockPosition == Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
                 navigationPaneControl.SetDockToBottomButtonVisible(!isBottom);
                 navigationPaneControl.UpdateEndButtonLayoutForDock(isBottom);
+                if (isBottom)
+                {
+                    navigationTaskPane.Height = TaskPaneBottomHeight;
+                }
+                else
+                {
+                    navigationTaskPane.Width = TaskPaneRightWidth;
+                    navigationTaskPane.Height = TaskPaneDefaultHeight;
+                }
             }
             catch { }
         }
@@ -99,6 +114,7 @@ namespace PowerPointSlideThumbnailsAddIn
                 navigationTaskPane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionBottom;
                 navigationPaneControl.SetDockToBottomButtonVisible(false);
                 navigationPaneControl.UpdateEndButtonLayoutForDock(true);
+                navigationTaskPane.Height = TaskPaneBottomHeight;
             }
         }
 

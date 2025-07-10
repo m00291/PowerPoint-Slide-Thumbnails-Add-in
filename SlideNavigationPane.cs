@@ -62,7 +62,6 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnLeft.Width = 120;
             this.btnLeft.Height = 80;
             this.btnLeft.Left = 10;
-            this.btnLeft.Top = 10;
             this.btnLeft.TextAlign = ContentAlignment.MiddleCenter;
             this.btnLeft.Click += (s, e) => LeftArrowClicked?.Invoke(this, EventArgs.Empty);
             // 
@@ -81,7 +80,6 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnRight.Width = 120;
             this.btnRight.Height = 80;
             this.btnRight.Left = 140;
-            this.btnRight.Top = 10;
             this.btnRight.TextAlign = ContentAlignment.MiddleCenter;
             this.btnRight.Click += (s, e) => RightArrowClicked?.Invoke(this, EventArgs.Empty);
             // 
@@ -90,7 +88,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.linePanel.Height = 2;
             this.linePanel.Width = 250;
             this.linePanel.Left = 10;
-            this.linePanel.Top = 100;
+            this.linePanel.Top = 90;
             this.linePanel.BackColor = Color.LightGray;
             // 
             // btnEnd
@@ -108,7 +106,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnEnd.Width = 120;
             this.btnEnd.Height = 80;
             this.btnEnd.Left = 140;
-            this.btnEnd.Top = 110;
+            this.btnEnd.Top = 100;
             this.btnEnd.TextAlign = ContentAlignment.MiddleCenter;
             this.btnEnd.FlatStyle = FlatStyle.Flat;
             this.btnEnd.FlatAppearance.BorderSize = 0;
@@ -116,13 +114,18 @@ namespace PowerPointSlideThumbnailsAddIn
             // 
             // btnDockBottom
             // 
-            this.btnDockBottom.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            this.btnDockBottom.Text = "Dock to Bottom";
-            this.btnDockBottom.Width = 200;
-            this.btnDockBottom.Height = 40;
-            this.btnDockBottom.Left = 20;
-            this.btnDockBottom.Top = 200;
+            this.btnDockBottom.Font = new Font(_privateFonts.Families[0], 20, FontStyle.Regular, GraphicsUnit.Point);
+            this.btnDockBottom.Text = "\uf72a"; // \uf705
+            this.btnDockBottom.Width = 280;
+            this.btnDockBottom.Height = 60;
+            // Place at the bottom with a margin
+            int margin = 0;
+            this.btnDockBottom.Left = 0;
+            this.btnDockBottom.Top = this.Height - this.btnDockBottom.Height - margin;
+            this.btnDockBottom.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             this.btnDockBottom.TextAlign = ContentAlignment.MiddleCenter;
+            this.btnDockBottom.FlatStyle = FlatStyle.Flat;
+            this.btnDockBottom.FlatAppearance.BorderSize = 0;
             this.btnDockBottom.Click += (s, e) => DockToBottomClicked?.Invoke(this, EventArgs.Empty);
             // 
             // SlideNavigationPane
@@ -134,6 +137,11 @@ namespace PowerPointSlideThumbnailsAddIn
             this.Controls.Add(this.btnDockBottom);
             this.Width = 240;
             this.Height = _fontLoaded ? 270 : 250;
+            // Ensure btnDockBottom stays at the bottom on resize
+            this.Resize += (s, e) =>
+            {
+                this.btnDockBottom.Top = this.Height - this.btnDockBottom.Height - margin;
+            };
         }
 
         public void SetDockToBottomButtonVisible(bool visible)
@@ -146,11 +154,16 @@ namespace PowerPointSlideThumbnailsAddIn
         {
             if (isDockedBottom)
             {
+                btnLeft.Left = 50;
+                btnRight.Left = btnLeft.Right + 10;
+
                 // Place End button to the right of the arrows
-                btnEnd.Left = btnRight.Right + 10;
+                btnEnd.Left = btnRight.Right + 100;
                 btnEnd.Top = btnRight.Top;
-                btnEnd.Width = 80;
+                btnEnd.Width = 120;
                 btnEnd.Height = btnRight.Height;
+
+                linePanel.Visible = false;
             }
             else
             {
@@ -159,6 +172,8 @@ namespace PowerPointSlideThumbnailsAddIn
                 btnEnd.Top = 110;
                 btnEnd.Width = 120;
                 btnEnd.Height = 80;
+
+                linePanel.Visible = true;
             }
         }
     }
