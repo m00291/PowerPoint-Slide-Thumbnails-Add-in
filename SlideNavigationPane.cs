@@ -13,6 +13,7 @@ namespace PowerPointSlideThumbnailsAddIn
         public event EventHandler RightArrowClicked;
         public event EventHandler EndButtonClicked;
         public event EventHandler DockToBottomClicked;
+        public event EventHandler DockToRightClicked;
 
         private PrivateFontCollection _privateFonts = new PrivateFontCollection();
         private bool _fontLoaded = false;
@@ -20,6 +21,7 @@ namespace PowerPointSlideThumbnailsAddIn
         private Button btnRight;
         private Button btnEnd;
         private Button btnDockBottom;
+        private Button btnDockRight;
         private Panel linePanel;
 
         public SlideNavigationPane()
@@ -45,6 +47,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnRight = new Button();
             this.btnEnd = new Button();
             this.btnDockBottom = new Button();
+            this.btnDockRight = new Button();
             this.linePanel = new Panel();
             // 
             // btnLeft
@@ -115,18 +118,32 @@ namespace PowerPointSlideThumbnailsAddIn
             // btnDockBottom
             // 
             this.btnDockBottom.Font = new Font(_privateFonts.Families[0], 20, FontStyle.Regular, GraphicsUnit.Point);
-            this.btnDockBottom.Text = "\uf72a"; // \uf705
+            this.btnDockBottom.Text = "\uf72a"; // Dock to bottom icon
             this.btnDockBottom.Width = 280;
             this.btnDockBottom.Height = 60;
-            // Place at the bottom with a margin
-            int margin = 0;
             this.btnDockBottom.Left = 0;
-            this.btnDockBottom.Top = this.Height - this.btnDockBottom.Height - margin;
+            this.btnDockBottom.Top = this.Height - this.btnDockBottom.Height;
             this.btnDockBottom.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             this.btnDockBottom.TextAlign = ContentAlignment.MiddleCenter;
             this.btnDockBottom.FlatStyle = FlatStyle.Flat;
             this.btnDockBottom.FlatAppearance.BorderSize = 0;
             this.btnDockBottom.Click += (s, e) => DockToBottomClicked?.Invoke(this, EventArgs.Empty);
+            // 
+            // btnDockRight
+            // 
+            this.btnDockRight.Font = new Font(_privateFonts.Families[0], 20, FontStyle.Regular, GraphicsUnit.Point);
+            this.btnDockRight.Text = "\uf705";
+            this.btnDockRight.Width = 60; // Swapped width and height
+            this.btnDockRight.Height = 103;
+            this.btnDockRight.Top = 25;
+            // Place at the right side of the bottom pane
+            this.btnDockRight.Left = this.Width - this.btnDockRight.Width;
+            this.btnDockRight.Anchor = AnchorStyles.Right;
+            this.btnDockRight.TextAlign = ContentAlignment.MiddleCenter;
+            this.btnDockRight.FlatStyle = FlatStyle.Flat;
+            this.btnDockRight.FlatAppearance.BorderSize = 0;
+            this.btnDockRight.Visible = false;
+            this.btnDockRight.Click += (s, e) => DockToRightClicked?.Invoke(this, EventArgs.Empty);
             // 
             // SlideNavigationPane
             // 
@@ -135,12 +152,14 @@ namespace PowerPointSlideThumbnailsAddIn
             this.Controls.Add(this.linePanel);
             this.Controls.Add(this.btnEnd);
             this.Controls.Add(this.btnDockBottom);
+            this.Controls.Add(this.btnDockRight);
             this.Width = 240;
             this.Height = _fontLoaded ? 270 : 250;
-            // Ensure btnDockBottom stays at the bottom on resize
+            // Ensure btnDockBottom and btnDockRight stay at the bottom on resize
             this.Resize += (s, e) =>
             {
-                this.btnDockBottom.Top = this.Height - this.btnDockBottom.Height - margin;
+                this.btnDockBottom.Top = this.Height - this.btnDockBottom.Height;
+                this.btnDockRight.Left = this.Width - this.btnDockRight.Width;
             };
         }
 
@@ -164,9 +183,15 @@ namespace PowerPointSlideThumbnailsAddIn
                 btnEnd.Height = btnRight.Height;
 
                 linePanel.Visible = false;
+
+                btnDockBottom.Visible = false;
+                btnDockRight.Visible = true;
             }
             else
             {
+                btnLeft.Left = 10;
+                btnRight.Left = btnLeft.Right + 10;
+
                 // Restore original position
                 btnEnd.Left = 140;
                 btnEnd.Top = 110;
@@ -174,6 +199,9 @@ namespace PowerPointSlideThumbnailsAddIn
                 btnEnd.Height = 80;
 
                 linePanel.Visible = true;
+
+                btnDockBottom.Visible = true;
+                btnDockRight.Visible = false;
             }
         }
     }
