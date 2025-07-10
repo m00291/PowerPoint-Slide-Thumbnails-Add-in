@@ -31,6 +31,26 @@ namespace PowerPointSlideThumbnailsAddIn
             try
             {
                 currentPresentation = Wn.Presentation;
+                bool presenterViewWasOn = false;
+                try
+                {
+                    // Check if Presenter View is enabled
+                    if (currentPresentation.SlideShowSettings.ShowPresenterView == Microsoft.Office.Core.MsoTriState.msoTrue)
+                    {
+                        presenterViewWasOn = true;
+                        currentPresentation.SlideShowSettings.ShowPresenterView = Microsoft.Office.Core.MsoTriState.msoFalse;
+                    }
+                }
+                catch { }
+
+                if (presenterViewWasOn)
+                {
+                    // End current slideshow and restart with Presenter View disabled
+                    try { Wn.View.Exit(); } catch { }
+                    try { currentPresentation.SlideShowSettings.Run(); } catch { }
+                    return;
+                }
+
                 var window = currentPresentation.Windows[1];
                 window.ViewType = PowerPoint.PpViewType.ppViewSlideSorter;
 
