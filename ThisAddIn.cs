@@ -67,6 +67,7 @@ namespace PowerPointSlideThumbnailsAddIn
                     navigationTaskPane.Visible = false;
                     this.CustomTaskPanes.Remove(navigationTaskPane);
                     navigationTaskPane = null;
+                    navigationPaneControl = null; // Ensure new control is created next time
                 }
             }
             catch { }
