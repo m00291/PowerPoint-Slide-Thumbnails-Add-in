@@ -20,7 +20,7 @@ namespace PowerPointSlideThumbnailsAddIn
             // 
             // btnLeft
             // 
-            this.btnLeft.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Bold);
+            this.btnLeft.Font = new System.Drawing.Font("Courier New", 36F, System.Drawing.FontStyle.Bold);
             this.btnLeft.Text = "<";
             this.btnLeft.Width = 120;
             this.btnLeft.Height = 120;
@@ -30,7 +30,7 @@ namespace PowerPointSlideThumbnailsAddIn
             // 
             // btnRight
             // 
-            this.btnRight.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Bold);
+            this.btnRight.Font = new System.Drawing.Font("Courier New", 36F, System.Drawing.FontStyle.Bold);
             this.btnRight.Text = ">";
             this.btnRight.Width = 120;
             this.btnRight.Height = 120;
