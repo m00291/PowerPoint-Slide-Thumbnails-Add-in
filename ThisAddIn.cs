@@ -60,14 +60,27 @@ namespace PowerPointSlideThumbnailsAddIn
                     navigationPaneControl = new SlideNavigationPane();
                     navigationPaneControl.LeftArrowClicked += NavigationPaneControl_LeftArrowClicked;
                     navigationPaneControl.RightArrowClicked += NavigationPaneControl_RightArrowClicked;
+                    navigationPaneControl.EndButtonClicked += NavigationPaneControl_EndButtonClicked;
                 }
                 if (navigationTaskPane == null)
                 {
-                    navigationTaskPane = this.CustomTaskPanes.Add(navigationPaneControl, "Slide Navigation");
+                    navigationTaskPane = this.CustomTaskPanes.Add(navigationPaneControl, " ");
                     navigationTaskPane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
-                    navigationTaskPane.Width = 320;
+                    navigationTaskPane.Width = 280;
                 }
                 navigationTaskPane.Visible = true;
+            }
+            catch { }
+        }
+
+        private void NavigationPaneControl_EndButtonClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (pptApp.SlideShowWindows.Count > 0)
+                {
+                    pptApp.SlideShowWindows[1].View.Exit();
+                }
             }
             catch { }
         }
