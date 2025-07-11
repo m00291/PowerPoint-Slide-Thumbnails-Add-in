@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36221.1 d17.14
+VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerPointSlideThumbnailsAddIn", "PowerPointSlideThumbnailsAddIn.csproj", "{BED18FBE-EA7F-4AB9-9328-FFC32F321A0F}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "installer", "..\installer\installer.vdproj", "{577B8064-3449-97E9-2B56-5FFC26D3934A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{BED18FBE-EA7F-4AB9-9328-FFC32F321A0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BED18FBE-EA7F-4AB9-9328-FFC32F321A0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BED18FBE-EA7F-4AB9-9328-FFC32F321A0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{577B8064-3449-97E9-2B56-5FFC26D3934A}.Debug|Any CPU.ActiveCfg = Debug
+		{577B8064-3449-97E9-2B56-5FFC26D3934A}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
