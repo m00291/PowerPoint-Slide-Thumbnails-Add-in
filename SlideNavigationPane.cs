@@ -34,7 +34,7 @@ namespace PowerPointSlideThumbnailsAddIn
 
         private void LoadMaterialIconsFont()
         {
-            string fontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Fonts", "MaterialSymbolsOutlined.ttf");
+            string fontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Fonts/MaterialSymbolsOutlined.ttf");
             if (File.Exists(fontPath))
             {
                 _privateFonts.AddFontFile(fontPath);
@@ -56,7 +56,7 @@ namespace PowerPointSlideThumbnailsAddIn
             // 
             if (_fontLoaded)
             {
-                this.btnLeft.Font = new Font(_privateFonts.Families[0], 40, FontStyle.Regular, GraphicsUnit.Point);
+                this.btnLeft.Font = new Font(_privateFonts.Families[0], 40);
                 this.btnLeft.Text = "\ue5de"; // Material Icons: arrow_left
             }
             else
@@ -68,13 +68,14 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnLeft.Height = 80;
             this.btnLeft.Left = 10;
             this.btnLeft.TextAlign = ContentAlignment.MiddleCenter;
+            this.btnLeft.Padding = new Padding(0, 10, 0, 0);
             this.btnLeft.Click += (s, e) => LeftArrowClicked?.Invoke(this, EventArgs.Empty);
             // 
             // btnRight
             // 
             if (_fontLoaded)
             {
-                this.btnRight.Font = new Font(_privateFonts.Families[0], 40, FontStyle.Regular, GraphicsUnit.Point);
+                this.btnRight.Font = new Font(_privateFonts.Families[0], 40);
                 this.btnRight.Text = "\ue5df"; // Material Icons: arrow_right
             }
             else
@@ -86,6 +87,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnRight.Height = 80;
             this.btnRight.Left = 140;
             this.btnRight.TextAlign = ContentAlignment.MiddleCenter;
+            this.btnRight.Padding = new Padding(0, 10, 0, 0);
             this.btnRight.Click += (s, e) => RightArrowClicked?.Invoke(this, EventArgs.Empty);
             // 
             // linePanel
@@ -100,30 +102,31 @@ namespace PowerPointSlideThumbnailsAddIn
             // 
             if (_fontLoaded)
             {
-                this.btnBackToGrid.Font = new Font(_privateFonts.Families[0], 40, FontStyle.Regular, GraphicsUnit.Point);
+                this.btnBackToGrid.Font = new Font(_privateFonts.Families[0], 40);
                 this.btnBackToGrid.Text = "\ue9b0"; // Material Icons: grid_view
             }
             else
             {
-                this.btnBackToGrid.Font = new Font("Calibri", 24F, FontStyle.Bold);
-                this.btnBackToGrid.Text = "Grid";
+                this.btnBackToGrid.Font = new Font("Calibri", 15, FontStyle.Bold);
+                this.btnBackToGrid.Text = "Slideshow";
             }
             this.btnBackToGrid.Width = 120;
             this.btnBackToGrid.Height = 80;
             this.btnBackToGrid.Left = 10;
             this.btnBackToGrid.Top = 100;
             this.btnBackToGrid.TextAlign = ContentAlignment.MiddleCenter;
+            this.btnBackToGrid.Padding = new Padding(0, 10, 0, 0);
             // 
             // btnEnd
             // 
             if (_fontLoaded)
             {
-                this.btnEnd.Font = new Font(_privateFonts.Families[0], 36, FontStyle.Regular, GraphicsUnit.Point);
+                this.btnEnd.Font = new Font(_privateFonts.Families[0], 36);
                 this.btnEnd.Text = "\uf2f6"; // Material Icons: computer_cancel
             }
             else
             {
-                this.btnEnd.Font = new Font("Calibri ", 20F, FontStyle.Bold);
+                this.btnEnd.Font = new Font("Calibri ", 15, FontStyle.Bold);
                 this.btnEnd.Text = "End";
             }
             this.btnEnd.Width = 120;
@@ -131,28 +134,46 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnEnd.Left = 140;
             this.btnEnd.Top = 190;
             this.btnEnd.TextAlign = ContentAlignment.MiddleCenter;
+            this.btnEnd.Padding = new Padding(0, 10, 0, 0);
             this.btnEnd.FlatStyle = FlatStyle.Flat;
             this.btnEnd.FlatAppearance.BorderSize = 0;
             this.btnEnd.Click += (s, e) => EndButtonClicked?.Invoke(this, EventArgs.Empty);
             // 
             // btnDockBottom
             // 
-            this.btnDockBottom.Font = new Font(_privateFonts.Families[0], 20, FontStyle.Regular, GraphicsUnit.Point);
-            this.btnDockBottom.Text = "\uf72a"; // Material Icons: bottom_panel_close
+            if (_fontLoaded)
+            {
+                this.btnDockBottom.Font = new Font(_privateFonts.Families[0], 20);
+                this.btnDockBottom.Text = "\uf72a"; // Material Icons: bottom_panel_close
+            }
+            else
+            {
+                this.btnDockBottom.Font = new Font("Calibri ", 8);
+                this.btnDockBottom.Text = "Dock to bottom";
+            }
             this.btnDockBottom.Width = 280;
             this.btnDockBottom.Height = 60;
             this.btnDockBottom.Left = 0;
             this.btnDockBottom.Top = this.Height - this.btnDockBottom.Height;
             this.btnDockBottom.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             this.btnDockBottom.TextAlign = ContentAlignment.MiddleCenter;
+            this.btnDockBottom.Padding = new Padding(0, 5, 0, 0);
             this.btnDockBottom.FlatStyle = FlatStyle.Flat;
             this.btnDockBottom.FlatAppearance.BorderSize = 0;
             this.btnDockBottom.Click += (s, e) => DockToBottomClicked?.Invoke(this, EventArgs.Empty);
             // 
             // btnDockRight
             // 
-            this.btnDockRight.Font = new Font(_privateFonts.Families[0], 20, FontStyle.Regular, GraphicsUnit.Point);
-            this.btnDockRight.Text = "\uf705"; // Material Icons: right_panel_close
+            if (_fontLoaded)
+            {
+                this.btnDockRight.Font = new Font(_privateFonts.Families[0], 20);
+                this.btnDockRight.Text = "\uf705"; // Material Icons: right_panel_close
+            }
+            else
+            {
+                this.btnDockRight.Font = new Font("Calibri ", 8);
+                this.btnDockRight.Text = "Dock to right";
+            }
             this.btnDockRight.Width = 60; // Swapped width and height
             this.btnDockRight.Height = 103;
             this.btnDockRight.Top = 25;
@@ -160,6 +181,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnDockRight.Left = this.Width - this.btnDockRight.Width;
             this.btnDockRight.Anchor = AnchorStyles.Right;
             this.btnDockRight.TextAlign = ContentAlignment.MiddleCenter;
+            this.btnDockRight.Padding = new Padding(0, 5, 0, 0);
             this.btnDockRight.FlatStyle = FlatStyle.Flat;
             this.btnDockRight.FlatAppearance.BorderSize = 0;
             this.btnDockRight.Visible = false;
@@ -174,7 +196,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.Controls.Add(this.btnDockBottom);
             this.Controls.Add(this.btnDockRight);
             this.Controls.Add(this.btnBackToGrid);
-            this.Width = 240;
+            this.Width = 280;
             this.Height = _fontLoaded ? 300 : 280;
             // Ensure btnDockBottom and btnDockRight stay at the bottom on resize
             this.Resize += (s, e) =>
@@ -195,7 +217,7 @@ namespace PowerPointSlideThumbnailsAddIn
                 btnBackToGrid.Left = btnRight.Right + 100;
                 btnBackToGrid.Top = btnRight.Top;
 
-                // Place End button to the right of the arrows
+                // Place End button to the Back to Grid button
                 btnEnd.Left = btnBackToGrid.Right + 100;
                 btnEnd.Top = btnRight.Top;
 
@@ -206,10 +228,10 @@ namespace PowerPointSlideThumbnailsAddIn
             }
             else
             {
+                // Restore original position
                 btnLeft.Left = 10;
                 btnRight.Left = btnLeft.Right + 10;
 
-                // Restore original position
                 btnBackToGrid.Left = 10;
                 btnBackToGrid.Top = 100;
 
