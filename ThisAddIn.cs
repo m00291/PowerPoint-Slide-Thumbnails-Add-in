@@ -18,6 +18,7 @@ namespace PowerPointSlideThumbnailsAddIn
         private Microsoft.Office.Tools.CustomTaskPane navigationTaskPane;
         private SlideNavigationPane navigationPaneControl;
         private bool isSyncingSelection = false;
+        public int currentSlideIndex = 1;
 
         private const int TaskPaneBottomHeight = 140; // Height for bottom dock
         private const int TaskPaneRightWidth = 280;   // Width for right dock
@@ -65,6 +66,7 @@ namespace PowerPointSlideThumbnailsAddIn
                     navigationPaneControl = new SlideNavigationPane();
                     navigationPaneControl.LeftArrowClicked += NavigationPaneControl_LeftArrowClicked;
                     navigationPaneControl.RightArrowClicked += NavigationPaneControl_RightArrowClicked;
+                    navigationPaneControl.BackToGridClicked += NavigationPaneControl_BackToGridClicked;
                     navigationPaneControl.EndButtonClicked += NavigationPaneControl_EndButtonClicked;
                     navigationPaneControl.DockToBottomClicked += NavigationPaneControl_DockToBottomClicked;
                     navigationPaneControl.DockToRightClicked += NavigationPaneControl_DockToRightClicked;
@@ -81,6 +83,24 @@ namespace PowerPointSlideThumbnailsAddIn
                 navigationPaneControl.UpdateButtonLayoutForDock(isBottom);
             }
             catch { }
+        }
+
+        private void NavigationPaneControl_BackToGridClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                isSyncingSelection = true;
+                var window = currentPresentation.Windows[1];
+                window.ViewType = PowerPoint.PpViewType.ppViewSlideSorter;
+
+                if (pptApp.SlideShowWindows.Count > 0)
+                {
+                    window.View.GotoSlide(currentSlideIndex);
+                    window.Selection.SlideRange.Select();
+                }
+                isSyncingSelection = false;
+            }
+            catch { isSyncingSelection = false; }
         }
 
         private void NavigationPaneControl_EndButtonClicked(object sender, EventArgs e)
@@ -144,6 +164,7 @@ namespace PowerPointSlideThumbnailsAddIn
                 {
                     var view = pptApp.SlideShowWindows[1].View;
                     view.Previous();
+                    currentSlideIndex = view.CurrentShowPosition;
                 }
             }
             catch { }
@@ -157,6 +178,7 @@ namespace PowerPointSlideThumbnailsAddIn
                 {
                     var view = pptApp.SlideShowWindows[1].View;
                     view.Next();
+                    currentSlideIndex = view.CurrentShowPosition;
                 }
             }
             catch { }
@@ -164,6 +186,7 @@ namespace PowerPointSlideThumbnailsAddIn
 
         private void PptApp_SlideShowNextSlide(PowerPoint.SlideShowWindow Wn)
         {
+            // This event is triggered when the next slide is shown in the slideshow
             try
             {
                 if (currentPresentation != null && currentPresentation.Windows.Count > 0)
@@ -184,6 +207,7 @@ namespace PowerPointSlideThumbnailsAddIn
 
         private void PptApp_WindowSelectionChange(PowerPoint.Selection Sel)
         {
+            // This event is triggered when the selection changes in the SlideSorter view
             try
             {
                 if (isSyncingSelection) return;
@@ -198,6 +222,7 @@ namespace PowerPointSlideThumbnailsAddIn
                         {
                             var slideShowView = pptApp.SlideShowWindows[1].View;
                             slideShowView.GotoSlide(slideIndex);
+                            currentSlideIndex = slideIndex;
                         }
                     }
                 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
@@ -11,6 +11,7 @@ namespace PowerPointSlideThumbnailsAddIn
     {
         public event EventHandler LeftArrowClicked;
         public event EventHandler RightArrowClicked;
+        public event EventHandler BackToGridClicked;
         public event EventHandler EndButtonClicked;
         public event EventHandler DockToBottomClicked;
         public event EventHandler DockToRightClicked;
@@ -19,11 +20,21 @@ namespace PowerPointSlideThumbnailsAddIn
         private bool _fontLoaded = false;
         private Button btnLeft;
         private Button btnRight;
+        private Button btnBackToGrid;
         private Button btnEnd;
         private Button btnDockBottom;
         private Button btnDockRight;
-        private Button btnBackToGrid;
         private Panel linePanel;
+
+        private Label lblBackToGrid;
+        private Label lblEnd;
+
+        private ToolTip toolTipLeft;
+        private ToolTip toolTipRight;
+        private ToolTip toolTipBackToGrid;
+        private ToolTip toolTipEnd;
+        private ToolTip toolTipDockBottom;
+        private ToolTip toolTipDockRight;
 
         public SlideNavigationPane()
         {
@@ -51,6 +62,17 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnDockRight = new Button();
             this.btnBackToGrid = new Button();
             this.linePanel = new Panel();
+
+            this.lblBackToGrid = new Label();
+            this.lblEnd = new Label();
+
+            this.toolTipLeft = new ToolTip();
+            this.toolTipRight = new ToolTip();
+            this.toolTipBackToGrid = new ToolTip();
+            this.toolTipEnd = new ToolTip();
+            this.toolTipDockBottom = new ToolTip();
+            this.toolTipDockRight = new ToolTip();
+
             // 
             // btnLeft
             // 
@@ -70,6 +92,8 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnLeft.TextAlign = ContentAlignment.MiddleCenter;
             this.btnLeft.Padding = new Padding(0, 10, 0, 0);
             this.btnLeft.Click += (s, e) => LeftArrowClicked?.Invoke(this, EventArgs.Empty);
+
+            toolTipLeft.SetToolTip(this.btnLeft, "上一頁");
             // 
             // btnRight
             // 
@@ -89,6 +113,8 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnRight.TextAlign = ContentAlignment.MiddleCenter;
             this.btnRight.Padding = new Padding(0, 10, 0, 0);
             this.btnRight.Click += (s, e) => RightArrowClicked?.Invoke(this, EventArgs.Empty);
+
+            toolTipRight.SetToolTip(this.btnRight, "下一頁");
             // 
             // linePanel
             // 
@@ -116,6 +142,18 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnBackToGrid.Top = 100;
             this.btnBackToGrid.TextAlign = ContentAlignment.MiddleCenter;
             this.btnBackToGrid.Padding = new Padding(0, 10, 0, 0);
+            this.btnBackToGrid.Click += (s, e) => BackToGridClicked?.Invoke(this, EventArgs.Empty);
+
+            toolTipBackToGrid.SetToolTip(this.btnBackToGrid, "返回投影片網格");
+
+            lblBackToGrid.Text = "返回";
+            lblBackToGrid.Font = new Font("微軟正黑體, Microsoft JhengHei, Microsoft JhengHei UI, 新細明體, PMingLiU", 14, FontStyle.Bold);
+            lblBackToGrid.AutoSize = false;
+            lblBackToGrid.TextAlign = ContentAlignment.TopCenter;
+            lblBackToGrid.Width = btnBackToGrid.Width;
+            lblBackToGrid.Height = 20; // Adjust as needed
+            lblBackToGrid.Left = btnBackToGrid.Left;
+            lblBackToGrid.Top = btnBackToGrid.Top + btnBackToGrid.Height + 2;
             // 
             // btnEnd
             // 
@@ -138,6 +176,17 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnEnd.FlatStyle = FlatStyle.Flat;
             this.btnEnd.FlatAppearance.BorderSize = 0;
             this.btnEnd.Click += (s, e) => EndButtonClicked?.Invoke(this, EventArgs.Empty);
+
+            toolTipEnd.SetToolTip(this.btnEnd, "結束放映");
+
+            lblEnd.Text = "結束";
+            lblEnd.Font = new Font("微軟正黑體, Microsoft JhengHei, Microsoft JhengHei UI, 新細明體, PMingLiU", 14, FontStyle.Bold);
+            lblEnd.AutoSize = false;
+            lblEnd.TextAlign = ContentAlignment.TopCenter;
+            lblEnd.Width = btnEnd.Width;
+            lblEnd.Height = 20; // Adjust as needed
+            lblEnd.Left = btnEnd.Left;
+            lblEnd.Top = btnEnd.Top + btnEnd.Height + 2;
             // 
             // btnDockBottom
             // 
@@ -161,6 +210,8 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnDockBottom.FlatStyle = FlatStyle.Flat;
             this.btnDockBottom.FlatAppearance.BorderSize = 0;
             this.btnDockBottom.Click += (s, e) => DockToBottomClicked?.Invoke(this, EventArgs.Empty);
+
+            toolTipDockBottom.SetToolTip(this.btnDockBottom, "停靠底部");
             // 
             // btnDockRight
             // 
@@ -186,16 +237,20 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnDockRight.FlatAppearance.BorderSize = 0;
             this.btnDockRight.Visible = false;
             this.btnDockRight.Click += (s, e) => DockToRightClicked?.Invoke(this, EventArgs.Empty);
+
+            toolTipDockRight.SetToolTip(this.btnDockRight, "停靠右側");
             // 
             // SlideNavigationPane
             // 
             this.Controls.Add(this.btnLeft);
             this.Controls.Add(this.btnRight);
             this.Controls.Add(this.linePanel);
+            this.Controls.Add(this.btnBackToGrid);
+            this.Controls.Add(this.lblBackToGrid);
             this.Controls.Add(this.btnEnd);
+            this.Controls.Add(this.lblEnd);
             this.Controls.Add(this.btnDockBottom);
             this.Controls.Add(this.btnDockRight);
-            this.Controls.Add(this.btnBackToGrid);
             this.Width = 280;
             this.Height = _fontLoaded ? 300 : 280;
             // Ensure btnDockBottom and btnDockRight stay at the bottom on resize
