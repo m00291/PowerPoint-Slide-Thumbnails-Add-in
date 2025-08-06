@@ -15,6 +15,7 @@ namespace PowerPointSlideThumbnailsAddIn
         public event EventHandler EndButtonClicked;
         public event EventHandler DockToBottomClicked;
         public event EventHandler DockToRightClicked;
+        public event EventHandler btnAbout_Click;
 
         private PrivateFontCollection _privateFonts = new PrivateFontCollection();
         private bool _fontLoaded = false;
@@ -24,6 +25,7 @@ namespace PowerPointSlideThumbnailsAddIn
         private Button btnEnd;
         private Button btnDockBottom;
         private Button btnDockRight;
+        private Button btnAbout;
         private Panel linePanel;
 
         private Label lblBackToGrid;
@@ -35,6 +37,7 @@ namespace PowerPointSlideThumbnailsAddIn
         private ToolTip toolTipEnd;
         private ToolTip toolTipDockBottom;
         private ToolTip toolTipDockRight;
+        private ToolTip toolTipAbout;
 
         public SlideNavigationPane()
         {
@@ -61,6 +64,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnDockBottom = new Button();
             this.btnDockRight = new Button();
             this.btnBackToGrid = new Button();
+            this.btnAbout = new Button();
             this.linePanel = new Panel();
 
             this.lblBackToGrid = new Label();
@@ -72,6 +76,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.toolTipEnd = new ToolTip();
             this.toolTipDockBottom = new ToolTip();
             this.toolTipDockRight = new ToolTip();
+            this.toolTipAbout = new ToolTip();
 
             // 
             // btnLeft
@@ -188,6 +193,29 @@ namespace PowerPointSlideThumbnailsAddIn
             lblEnd.Left = btnEnd.Left;
             lblEnd.Top = btnEnd.Top + btnEnd.Height + 2;
             // 
+            // btnAbout
+            // 
+            if (_fontLoaded)
+            {
+                this.btnAbout.Font = new Font(_privateFonts.Families[0], 16);
+                this.btnAbout.Text = "\ue88e"; // Material Icons: info
+            }
+            else
+            {
+                this.btnAbout.Font = new Font("Calibri ", 15, FontStyle.Bold);
+                this.btnAbout.Text = "About me";
+            }
+            this.btnAbout.Width = 35;
+            this.btnAbout.Height = 35;
+            this.btnAbout.Left = btnEnd.Left + btnEnd.Width - this.btnAbout.Width;
+            this.btnAbout.Top = btnEnd.Bottom + 100;
+            this.btnAbout.TextAlign = ContentAlignment.MiddleCenter;
+            this.btnAbout.FlatStyle = FlatStyle.Flat;
+            this.btnAbout.FlatAppearance.BorderSize = 0;
+            this.btnAbout.Click += (s, e) => btnAbout_Click?.Invoke(this, EventArgs.Empty);
+
+            toolTipAbout.SetToolTip(this.btnAbout, "關於插件");
+            // 
             // btnDockBottom
             // 
             if (_fontLoaded)
@@ -251,6 +279,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.Controls.Add(this.lblEnd);
             this.Controls.Add(this.btnDockBottom);
             this.Controls.Add(this.btnDockRight);
+            this.Controls.Add(this.btnAbout);
             this.Width = 280;
             this.Height = _fontLoaded ? 300 : 280;
             // Ensure btnDockBottom and btnDockRight stay at the bottom on resize
@@ -271,12 +300,17 @@ namespace PowerPointSlideThumbnailsAddIn
                 // Place Back to Grid button to the right of the arrows
                 btnBackToGrid.Left = btnRight.Right + 100;
                 btnBackToGrid.Top = btnRight.Top;
+                lblBackToGrid.Visible = false;
 
                 // Place End button to the Back to Grid button
                 btnEnd.Left = btnBackToGrid.Right + 100;
                 btnEnd.Top = btnRight.Top;
+                lblEnd.Visible = false;
 
                 linePanel.Visible = false;
+
+                btnAbout.Left = btnEnd.Left + btnEnd.Width + 100;
+                btnAbout.Top = btnEnd.Top;
 
                 btnDockBottom.Visible = false;
                 btnDockRight.Visible = true;
@@ -289,11 +323,16 @@ namespace PowerPointSlideThumbnailsAddIn
 
                 btnBackToGrid.Left = 10;
                 btnBackToGrid.Top = 100;
+                lblBackToGrid.Visible = true;
 
                 btnEnd.Left = 140;
                 btnEnd.Top = 190;
+                lblEnd.Visible = true;
 
                 linePanel.Visible = true;
+
+                btnAbout.Left = btnEnd.Left + btnEnd.Width - btnAbout.Width;
+                btnAbout.Top = btnEnd.Bottom + 100;
 
                 btnDockBottom.Visible = true;
                 btnDockRight.Visible = false;

@@ -70,6 +70,7 @@ namespace PowerPointSlideThumbnailsAddIn
                     navigationPaneControl.EndButtonClicked += NavigationPaneControl_EndButtonClicked;
                     navigationPaneControl.DockToBottomClicked += NavigationPaneControl_DockToBottomClicked;
                     navigationPaneControl.DockToRightClicked += NavigationPaneControl_DockToRightClicked;
+                    navigationPaneControl.btnAbout_Click += NavigationPaneControl_About_Click;
                 }
                 if (navigationTaskPane == null)
                 {
@@ -113,6 +114,12 @@ namespace PowerPointSlideThumbnailsAddIn
                 }
             }
             catch { }
+        }
+
+        private void NavigationPaneControl_About_Click(object sender, EventArgs e)
+        {
+            AboutBox aboutBox = new AboutBox();
+            aboutBox.ShowDialog();
         }
 
         private void NavigationPaneControl_DockToBottomClicked(object sender, EventArgs e)
