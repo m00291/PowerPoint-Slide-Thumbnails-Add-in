@@ -14,7 +14,7 @@ namespace PowerPointSlideThumbnailsAddIn
         public AboutBox()
         {
             InitializeComponent();
-            this.Text = String.Format("About {0}", AssemblyTitle);
+
             string rtfPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "readme.rtf");
             if (System.IO.File.Exists(rtfPath))
             {
@@ -24,6 +24,9 @@ namespace PowerPointSlideThumbnailsAddIn
             {
                 richTextBox1.Text = "Readme file not found.";
             }
+
+            this.Text = Properties.Strings.about_title + Properties.Strings.title;
+            okButton.Text = Properties.Strings.about_ok;
 
             // Enable clickable links
             richTextBox1.LinkClicked += (sender, e) =>
@@ -40,23 +43,6 @@ namespace PowerPointSlideThumbnailsAddIn
         }
 
         #region Assembly Attribute Accessors
-
-        public string AssemblyTitle
-        {
-            get
-            {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-                if (attributes.Length > 0)
-                {
-                    AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
-                    if (titleAttribute.Title != "")
-                    {
-                        return titleAttribute.Title;
-                    }
-                }
-                return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
-            }
-        }
 
         #endregion
     }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Text;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace PowerPointSlideThumbnailsAddIn
@@ -41,6 +43,9 @@ namespace PowerPointSlideThumbnailsAddIn
 
         public SlideNavigationPane()
         {
+            var culture = Thread.CurrentThread.CurrentUICulture;
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-TW"); // test with Traditional Chinese
+
             LoadMaterialIconsFont(); // Load font before InitializeComponent
             InitializeComponent();
             this.BackColor = SystemColors.Control;
@@ -98,7 +103,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnLeft.Padding = new Padding(0, 10, 0, 0);
             this.btnLeft.Click += (s, e) => LeftArrowClicked?.Invoke(this, EventArgs.Empty);
 
-            toolTipLeft.SetToolTip(this.btnLeft, "上一頁");
+            toolTipLeft.SetToolTip(this.btnLeft, Properties.Strings.toolTipLeft);
             // 
             // btnRight
             // 
@@ -119,7 +124,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnRight.Padding = new Padding(0, 10, 0, 0);
             this.btnRight.Click += (s, e) => RightArrowClicked?.Invoke(this, EventArgs.Empty);
 
-            toolTipRight.SetToolTip(this.btnRight, "下一頁");
+            toolTipRight.SetToolTip(this.btnRight, Properties.Strings.toolTipRight);
             // 
             // linePanel
             // 
@@ -149,9 +154,9 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnBackToGrid.Padding = new Padding(0, 10, 0, 0);
             this.btnBackToGrid.Click += (s, e) => BackToGridClicked?.Invoke(this, EventArgs.Empty);
 
-            toolTipBackToGrid.SetToolTip(this.btnBackToGrid, "返回投影片網格");
+            toolTipBackToGrid.SetToolTip(this.btnBackToGrid, Properties.Strings.toolTipBackToGrid);
 
-            lblBackToGrid.Text = "返回";
+            lblBackToGrid.Text = Properties.Strings.lblBackToGrid;
             lblBackToGrid.Font = new Font("微軟正黑體, Microsoft JhengHei, Microsoft JhengHei UI, 新細明體, PMingLiU", 14, FontStyle.Bold);
             lblBackToGrid.AutoSize = false;
             lblBackToGrid.TextAlign = ContentAlignment.TopCenter;
@@ -182,9 +187,9 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnEnd.FlatAppearance.BorderSize = 0;
             this.btnEnd.Click += (s, e) => EndButtonClicked?.Invoke(this, EventArgs.Empty);
 
-            toolTipEnd.SetToolTip(this.btnEnd, "結束放映");
+            toolTipEnd.SetToolTip(this.btnEnd, Properties.Strings.toolTipEnd);
 
-            lblEnd.Text = "結束";
+            lblEnd.Text = Properties.Strings.lblEnd;
             lblEnd.Font = new Font("微軟正黑體, Microsoft JhengHei, Microsoft JhengHei UI, 新細明體, PMingLiU", 14, FontStyle.Bold);
             lblEnd.AutoSize = false;
             lblEnd.TextAlign = ContentAlignment.TopCenter;
@@ -214,7 +219,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnAbout.FlatAppearance.BorderSize = 0;
             this.btnAbout.Click += (s, e) => btnAbout_Click?.Invoke(this, EventArgs.Empty);
 
-            toolTipAbout.SetToolTip(this.btnAbout, "關於插件");
+            toolTipAbout.SetToolTip(this.btnAbout, Properties.Strings.toolTipAbout);
             // 
             // btnDockBottom
             // 
@@ -239,7 +244,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnDockBottom.FlatAppearance.BorderSize = 0;
             this.btnDockBottom.Click += (s, e) => DockToBottomClicked?.Invoke(this, EventArgs.Empty);
 
-            toolTipDockBottom.SetToolTip(this.btnDockBottom, "停靠底部");
+            toolTipDockBottom.SetToolTip(this.btnDockBottom, Properties.Strings.toolTipDockBottom);
             // 
             // btnDockRight
             // 
@@ -266,7 +271,7 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnDockRight.Visible = false;
             this.btnDockRight.Click += (s, e) => DockToRightClicked?.Invoke(this, EventArgs.Empty);
 
-            toolTipDockRight.SetToolTip(this.btnDockRight, "停靠右側");
+            toolTipDockRight.SetToolTip(this.btnDockRight, Properties.Strings.toolTipDockRight);
             // 
             // SlideNavigationPane
             // 
