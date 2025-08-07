@@ -654,15 +654,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PowerPoint Slide Thumbnails Add-in"
-        "ProductCode" = "8:{B77446FB-15DE-4A78-8422-49B5946EC2E4}"
-        "PackageCode" = "8:{8AC128B3-7281-4D2F-80CD-F39DCC4FDDFE}"
+        "ProductCode" = "8:{B5D17945-8F37-48CF-ACD7-E6E655050A44}"
+        "PackageCode" = "8:{F8853BD5-187B-4EB1-AC60-3D75C3FFCB3D}"
         "UpgradeCode" = "8:{F37DEE13-2AF8-4096-A97A-AC7CA925E9FE}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.1.0"
         "Manufacturer" = "8:Microsoft Office Add-ins"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1260,6 +1260,34 @@
         }
         "ProjectOutput"
         {
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1400E08906A7417F81BE847CBC6AB9B5"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3B90E72DD3ED4F6884EB303D43D66517"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:LocalizedResourceDlls"
+            "OutputProjectGuid" = "8:{BED18FBE-EA7F-4AB9-9328-FFC32F321A0F}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_8712D7921E1D4C78B14C185174D5829D"
             {
             "SourcePath" = "8:..\\src\\obj\\Release\\PowerPointSlideThumbnailsAddIn.dll"

@@ -25,12 +25,12 @@ Code Signing Certificate
 
 PowerPoint 投影片縮圖插件
 -----------------------
-**版本：** 1.0.0  
+**版本：** 1.1.0  
 **GitHub：** https://github.com/m00291/PowerPointSlideThumbnailsAddIn
 
-概述
+簡介
 ----
-現代版本的 PowerPoint（2013 及之後版本）將經典 2003 簡報者檢視中的常駐投影片縮圖，改為暫時性縮圖格，導致需要額外點擊操作，且在跳轉投影片後會自動關閉。PowerPoint 投影片縮圖插件透過使用投影片瀏覽模式（Slide Sorter View），讓您能夠隨時保持投影片縮圖可見。安裝插件後，您只需點擊任一縮圖，即可立即跳至該投影片，大幅提升簡報操作的便利性。
+新版 PowerPoint（2013 及之後版本）將經典 2003 簡報者檢視中的常駐投影片縮圖，改為暫時性縮圖格，導致需要額外點擊操作，且在跳轉投影片後會自動關閉。PowerPoint 投影片縮圖插件 透過使用投影片瀏覽模式（Slide Sorter View），讓您能夠隨時保持投影片縮圖可見。安裝插件後，您只需點擊任一縮圖，即可立即跳至該投影片，大幅提升簡報操作的便利性。
 
 移除插件
 -------
@@ -48,7 +48,7 @@ PowerPoint 投影片縮圖插件
 
 PowerPoint Slide Thumbnails Add-in
 ----------------------------------
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **GitHub:** https://github.com/m00291/PowerPointSlideThumbnailsAddIn
 
 Overview
