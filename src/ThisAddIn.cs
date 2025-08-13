@@ -36,6 +36,8 @@ namespace PowerPointSlideThumbnailsAddIn
         {
             try
             {
+                CollapseRibbon();
+
                 currentPresentation = Wn.Presentation;
                 bool presenterViewWasOn = false;
                 try
@@ -86,10 +88,44 @@ namespace PowerPointSlideThumbnailsAddIn
             catch { }
         }
 
+        private void CollapseRibbon()
+        {
+            try
+            {
+                if (pptApp.CommandBars["Ribbon"] != null)
+                {
+                    float height = pptApp.CommandBars["Ribbon"].Controls[1].Height;
+                    if (height >= 100)
+                    {
+                        pptApp.CommandBars.ExecuteMso("MinimizeRibbon");
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private void UncollapseRibbon()
+        {
+            try
+            {
+                if (pptApp.CommandBars["Ribbon"] != null)
+                {
+                    float height = pptApp.CommandBars["Ribbon"].Controls[1].Height;
+                    if (height < 100)
+                    {
+                        pptApp.CommandBars.ExecuteMso("MinimizeRibbon");
+                    }
+                }
+            }
+            catch { }
+        }
+
         private void NavigationPaneControl_BackToGridClicked(object sender, EventArgs e)
         {
             try
             {
+                CollapseRibbon();
+
                 isSyncingSelection = true;
                 var window = currentPresentation.Windows[1];
                 window.ViewType = PowerPoint.PpViewType.ppViewSlideSorter;
@@ -146,6 +182,8 @@ namespace PowerPointSlideThumbnailsAddIn
         {
             try
             {
+                UncollapseRibbon();
+
                 if (currentPresentation != null)
                 {
                     var window = currentPresentation.Windows[1];
