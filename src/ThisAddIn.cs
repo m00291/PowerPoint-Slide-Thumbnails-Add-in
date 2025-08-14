@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Xml.Linq;
 using Office = Microsoft.Office.Core;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
@@ -81,6 +82,22 @@ namespace PowerPointSlideThumbnailsAddIn
                     navigationTaskPane.Width = TaskPaneRightWidth;
                 }
                 navigationTaskPane.Visible = true;
+
+                navigationTaskPane.VisibleChanged += (s, e) =>
+                {
+                    if (pptApp.SlideShowWindows.Count > 0)
+                    {
+                        try
+                        {
+                            new Thread(() =>
+                            {
+                                navigationTaskPane.Visible = true;
+                            }).Start();
+                        }
+                        catch { }
+                    }
+                };
+
                 // Show/hide DockToBottom button based on dock position
                 bool isBottom = navigationTaskPane.DockPosition == Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionBottom;
                 navigationPaneControl.UpdateButtonLayoutForDock(isBottom);
