@@ -19,6 +19,23 @@ namespace PowerPointSlideThumbnailsAddIn
         public event EventHandler DockToRightClicked;
         public event EventHandler btnAbout_Click;
 
+        private Label debugmsg;
+        private bool _isDockedBottom;
+        private int taskpaneleftpadding = 10;
+        private int taskpanerightpadding = 4;
+        private int taskpanebottompadding = 10;
+        private int btngap = 10;
+        private int bottom_btngap = 100;
+        private int btnwidth = 120;
+        private int btnheight = 80;
+        private int lblheight = 20;
+        private int btnAboutWidth = 35;
+        private int btnAboutHeight = 35;
+        private int btnDockBottomWidth = 280;
+        private int btnDockBottomHeight = 60;
+        private int btnDockRightWidth = 60;
+        private int btnDockRightHeight = 103;
+
         private PrivateFontCollection _privateFonts = new PrivateFontCollection();
         private bool _fontLoaded = false;
         private Button btnLeft;
@@ -49,6 +66,7 @@ namespace PowerPointSlideThumbnailsAddIn
             LoadMaterialIconsFont(); // Load font before InitializeComponent
             InitializeComponent();
             this.BackColor = SystemColors.Control;
+            this.SizeChanged += TaskPaneChangeSize;
         }
 
         private void LoadMaterialIconsFont()
@@ -75,6 +93,8 @@ namespace PowerPointSlideThumbnailsAddIn
             this.lblBackToGrid = new Label();
             this.lblEnd = new Label();
 
+            this.debugmsg = new Label();
+
             this.toolTipLeft = new ToolTip();
             this.toolTipRight = new ToolTip();
             this.toolTipBackToGrid = new ToolTip();
@@ -96,9 +116,9 @@ namespace PowerPointSlideThumbnailsAddIn
                 this.btnLeft.Font = new Font("Courier New", 36F, FontStyle.Bold);
                 this.btnLeft.Text = "<";
             }
-            this.btnLeft.Width = 120;
-            this.btnLeft.Height = 80;
-            this.btnLeft.Left = 10;
+            this.btnLeft.Width = btnwidth;
+            this.btnLeft.Height = btnheight;
+            this.btnLeft.Left = taskpaneleftpadding;
             this.btnLeft.TextAlign = ContentAlignment.MiddleCenter;
             this.btnLeft.Padding = new Padding(0, 10, 0, 0);
             this.btnLeft.Click += (s, e) => LeftArrowClicked?.Invoke(this, EventArgs.Empty);
@@ -117,9 +137,9 @@ namespace PowerPointSlideThumbnailsAddIn
                 this.btnRight.Font = new Font("Courier New", 36F, FontStyle.Bold);
                 this.btnRight.Text = ">";
             }
-            this.btnRight.Width = 120;
-            this.btnRight.Height = 80;
-            this.btnRight.Left = 140;
+            this.btnRight.Width = btnwidth;
+            this.btnRight.Height = btnheight;
+            this.btnRight.Left = btnLeft.Right + btngap;
             this.btnRight.TextAlign = ContentAlignment.MiddleCenter;
             this.btnRight.Padding = new Padding(0, 10, 0, 0);
             this.btnRight.Click += (s, e) => RightArrowClicked?.Invoke(this, EventArgs.Empty);
@@ -129,9 +149,9 @@ namespace PowerPointSlideThumbnailsAddIn
             // linePanel
             // 
             this.linePanel.Height = 2;
-            this.linePanel.Width = 250;
-            this.linePanel.Left = 10;
-            this.linePanel.Top = 90;
+            this.linePanel.Width = this.Width - taskpaneleftpadding - taskpanerightpadding;
+            this.linePanel.Left = taskpaneleftpadding;
+            this.linePanel.Top = btnLeft.Bottom + btngap;
             this.linePanel.BackColor = Color.LightGray;
             // 
             // btnBackToGrid
@@ -146,10 +166,10 @@ namespace PowerPointSlideThumbnailsAddIn
                 this.btnBackToGrid.Font = new Font("Calibri", 15, FontStyle.Bold);
                 this.btnBackToGrid.Text = "Slideshow";
             }
-            this.btnBackToGrid.Width = 120;
-            this.btnBackToGrid.Height = 80;
-            this.btnBackToGrid.Left = 10;
-            this.btnBackToGrid.Top = 100;
+            this.btnBackToGrid.Width = btnwidth;
+            this.btnBackToGrid.Height = btnheight;
+            this.btnBackToGrid.Left = taskpaneleftpadding;
+            this.btnBackToGrid.Top = linePanel.Bottom + btngap;
             this.btnBackToGrid.TextAlign = ContentAlignment.MiddleCenter;
             this.btnBackToGrid.Padding = new Padding(0, 10, 0, 0);
             this.btnBackToGrid.Click += (s, e) => BackToGridClicked?.Invoke(this, EventArgs.Empty);
@@ -161,9 +181,9 @@ namespace PowerPointSlideThumbnailsAddIn
             lblBackToGrid.AutoSize = false;
             lblBackToGrid.TextAlign = ContentAlignment.TopCenter;
             lblBackToGrid.Width = btnBackToGrid.Width;
-            lblBackToGrid.Height = 20; // Adjust as needed
+            lblBackToGrid.Height = lblheight;
             lblBackToGrid.Left = btnBackToGrid.Left;
-            lblBackToGrid.Top = btnBackToGrid.Top + btnBackToGrid.Height + 2;
+            lblBackToGrid.Top = btnBackToGrid.Bottom + 2;
             // 
             // btnEnd
             // 
@@ -177,10 +197,10 @@ namespace PowerPointSlideThumbnailsAddIn
                 this.btnEnd.Font = new Font("Calibri ", 15, FontStyle.Bold);
                 this.btnEnd.Text = "End";
             }
-            this.btnEnd.Width = 120;
-            this.btnEnd.Height = 80;
-            this.btnEnd.Left = 140;
-            this.btnEnd.Top = 190;
+            this.btnEnd.Width = btnwidth;
+            this.btnEnd.Height = btnheight;
+            this.btnEnd.Left = btnBackToGrid.Right + btngap;
+            this.btnEnd.Top = btnBackToGrid.Bottom + btngap;
             this.btnEnd.TextAlign = ContentAlignment.MiddleCenter;
             this.btnEnd.Padding = new Padding(0, 10, 0, 0);
             this.btnEnd.FlatStyle = FlatStyle.Flat;
@@ -194,9 +214,9 @@ namespace PowerPointSlideThumbnailsAddIn
             lblEnd.AutoSize = false;
             lblEnd.TextAlign = ContentAlignment.TopCenter;
             lblEnd.Width = btnEnd.Width;
-            lblEnd.Height = 20; // Adjust as needed
+            lblEnd.Height = lblheight;
             lblEnd.Left = btnEnd.Left;
-            lblEnd.Top = btnEnd.Top + btnEnd.Height + 2;
+            lblEnd.Top = btnEnd.Bottom + 2;
             // 
             // btnAbout
             // 
@@ -210,9 +230,9 @@ namespace PowerPointSlideThumbnailsAddIn
                 this.btnAbout.Font = new Font("Calibri ", 15, FontStyle.Bold);
                 this.btnAbout.Text = "About me";
             }
-            this.btnAbout.Width = 35;
-            this.btnAbout.Height = 35;
-            this.btnAbout.Left = btnEnd.Left + btnEnd.Width - this.btnAbout.Width;
+            this.btnAbout.Width = btnAboutWidth;
+            this.btnAbout.Height = btnAboutHeight;
+            this.btnAbout.Left = this.Width - taskpanerightpadding - btnAboutWidth;
             this.btnAbout.Top = btnEnd.Bottom + 100;
             this.btnAbout.TextAlign = ContentAlignment.MiddleCenter;
             this.btnAbout.FlatStyle = FlatStyle.Flat;
@@ -220,6 +240,15 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnAbout.Click += (s, e) => btnAbout_Click?.Invoke(this, EventArgs.Empty);
 
             toolTipAbout.SetToolTip(this.btnAbout, Properties.Strings.toolTipAbout);
+
+            //
+            // debugmsg
+            this.debugmsg.Text = "";
+            this.debugmsg.Font = new Font("Calibri", 10, FontStyle.Bold);
+            this.debugmsg.AutoSize = true;
+            this.debugmsg.Left = 10;
+            this.debugmsg.Top = btnAbout.Top + btnAbout.Height + 5;
+
             // 
             // btnDockBottom
             // 
@@ -233,8 +262,8 @@ namespace PowerPointSlideThumbnailsAddIn
                 this.btnDockBottom.Font = new Font("Calibri ", 8);
                 this.btnDockBottom.Text = "Dock to bottom";
             }
-            this.btnDockBottom.Width = 280;
-            this.btnDockBottom.Height = 60;
+            this.btnDockBottom.Width = btnDockBottomWidth;
+            this.btnDockBottom.Height = btnDockBottomHeight;
             this.btnDockBottom.Left = 0;
             this.btnDockBottom.Top = this.Height - this.btnDockBottom.Height;
             this.btnDockBottom.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
@@ -258,12 +287,11 @@ namespace PowerPointSlideThumbnailsAddIn
                 this.btnDockRight.Font = new Font("Calibri ", 8);
                 this.btnDockRight.Text = "Dock to right";
             }
-            this.btnDockRight.Width = 60; // Swapped width and height
-            this.btnDockRight.Height = 103;
-            this.btnDockRight.Top = 25;
-            // Place at the right side of the bottom pane
+            this.btnDockRight.Width = btnDockRightWidth;
+            this.btnDockRight.Height = btnDockRightHeight;
+            this.btnDockRight.Top = this.Height - this.btnDockRight.Height;
             this.btnDockRight.Left = this.Width - this.btnDockRight.Width;
-            this.btnDockRight.Anchor = AnchorStyles.Right;
+            this.btnDockRight.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             this.btnDockRight.TextAlign = ContentAlignment.MiddleCenter;
             this.btnDockRight.Padding = new Padding(0, 5, 0, 0);
             this.btnDockRight.FlatStyle = FlatStyle.Flat;
@@ -285,8 +313,9 @@ namespace PowerPointSlideThumbnailsAddIn
             this.Controls.Add(this.btnDockBottom);
             this.Controls.Add(this.btnDockRight);
             this.Controls.Add(this.btnAbout);
-            this.Width = 280;
-            this.Height = _fontLoaded ? 300 : 280;
+            //this.Controls.Add(this.debugmsg);
+            btnDockBottom.BringToFront();
+            btnDockRight.BringToFront();
             // Ensure btnDockBottom and btnDockRight stay at the bottom on resize
             this.Resize += (s, e) =>
             {
@@ -295,53 +324,144 @@ namespace PowerPointSlideThumbnailsAddIn
             };
         }
 
-        public void UpdateButtonLayoutForDock(bool isDockedBottom)
+        public void TaskPaneChangeSize(object sender, EventArgs e)
         {
-            if (isDockedBottom)
+            btnwidth = 120;
+            btnheight = 80;
+            btnDockBottomWidth = 280;
+            btnDockBottomHeight = 60;
+            btnDockRightWidth = 60;
+            btnDockRightHeight = 100;
+
+            if (_isDockedBottom)
             {
+                btnheight = this.Height - taskpanebottompadding;
+
                 btnLeft.Left = 50;
-                btnRight.Left = btnLeft.Right + 10;
+                btnRight.Left = btnLeft.Right + btngap;
 
                 // Place Back to Grid button to the right of the arrows
-                btnBackToGrid.Left = btnRight.Right + 100;
+                btnBackToGrid.Left = btnRight.Right + bottom_btngap;
                 btnBackToGrid.Top = btnRight.Top;
                 lblBackToGrid.Visible = false;
 
-                // Place End button to the Back to Grid button
-                btnEnd.Left = btnBackToGrid.Right + 100;
+                btnEnd.Left = btnBackToGrid.Right + bottom_btngap;
                 btnEnd.Top = btnRight.Top;
                 lblEnd.Visible = false;
 
                 linePanel.Visible = false;
 
-                btnAbout.Left = btnEnd.Left + btnEnd.Width + 100;
+                btnAbout.Left = btnEnd.Right + bottom_btngap;
                 btnAbout.Top = btnEnd.Top;
+
+                debugmsg.Left = btnAbout.Right + 5;
+                debugmsg.Top = btnAbout.Top;
+
+                btnDockRight.Height = this.Height;
+                btnDockRight.Top = this.Height - this.btnDockRight.Height;
 
                 btnDockBottom.Visible = false;
                 btnDockRight.Visible = true;
             }
             else
             {
-                // Restore original position
-                btnLeft.Left = 10;
-                btnRight.Left = btnLeft.Right + 10;
+                btnwidth = (this.Width - taskpaneleftpadding - taskpanerightpadding - btngap) / 2;
 
-                btnBackToGrid.Left = 10;
-                btnBackToGrid.Top = 100;
+                btnLeft.Left = taskpaneleftpadding;
+                btnRight.Left = btnLeft.Right + btngap;
+
+                btnBackToGrid.Left = taskpaneleftpadding;
+                btnBackToGrid.Top = linePanel.Bottom + btngap;
                 lblBackToGrid.Visible = true;
+                AutoShrinkFont(lblBackToGrid);
 
-                btnEnd.Left = 140;
-                btnEnd.Top = 190;
+                btnEnd.Left = btnBackToGrid.Right + btngap;
+                btnEnd.Top = btnBackToGrid.Bottom + btngap;
                 lblEnd.Visible = true;
+                AutoShrinkFont(lblEnd);
 
                 linePanel.Visible = true;
 
-                btnAbout.Left = btnEnd.Left + btnEnd.Width - btnAbout.Width;
+                btnAbout.Left = this.Width - taskpanerightpadding - btnAboutWidth;
                 btnAbout.Top = btnEnd.Bottom + 100;
+
+                debugmsg.Left = 10;
+                debugmsg.Top = btnAbout.Bottom + 5;
+
+                btnDockBottom.Width = this.Width;
 
                 btnDockBottom.Visible = true;
                 btnDockRight.Visible = false;
             }
+
+            btnLeft.Width = btnwidth;
+            btnLeft.Height = btnheight;
+            btnRight.Width = btnwidth;
+            btnRight.Height = btnheight;
+
+            linePanel.Width = this.Width - taskpaneleftpadding - taskpanerightpadding;
+
+            btnBackToGrid.Width = btnwidth;
+            btnBackToGrid.Height = btnheight;
+            lblBackToGrid.Width = btnwidth;
+
+            btnEnd.Width = btnwidth;
+            btnEnd.Height = btnheight;
+            lblEnd.Width = btnwidth;
+
+            if (_isDockedBottom)
+            {
+            }
+            else
+            {
+                btnRight.Left = btnLeft.Right + btngap;
+                btnEnd.Left = btnBackToGrid.Right + btngap;
+                lblEnd.Left = btnEnd.Left;
+            }
+
+            // debug msg
+            /*
+            debugmsg.Text = "Width: " + this.Width + " | Height: " + this.Height;
+            debugmsg.Visible = false;
+            */
+            // debug msg end
+        }
+
+        private void AutoShrinkFont(Label lbl)
+        {
+            if (string.IsNullOrEmpty(lbl.Text))
+                return;
+
+            int minFontSize = 4; // Minimum font size
+            int maxFontSize = 14; // Maximum font size
+
+            using (Graphics g = lbl.CreateGraphics())
+            {
+                for (int size = maxFontSize; size >= minFontSize; size--)
+                {
+                    Font testFont = new Font(lbl.Font.FontFamily, size, lbl.Font.Style);
+                    SizeF textSize = g.MeasureString(lbl.Text, testFont);
+
+                    if (textSize.Width <= lbl.Width)
+                    {
+                        lbl.Font = testFont;
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void UpdateButtonLayoutForDock(bool isDockedBottom)
+        {
+            if (isDockedBottom)
+            {
+                _isDockedBottom = true;
+            }
+            else
+            {
+                _isDockedBottom = false;
+            }
+            TaskPaneChangeSize(this, EventArgs.Empty);
         }
     }
 }

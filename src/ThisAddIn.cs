@@ -21,8 +21,8 @@ namespace PowerPointSlideThumbnailsAddIn
         private bool isSyncingSelection = false;
         public int currentSlideIndex = 1;
 
-        private const int TaskPaneBottomHeight = 140; // Height for bottom dock
-        private const int TaskPaneRightWidth = 280;   // Width for right dock
+        private const int TaskPaneBottomHeight = 130; // Height for bottom dock
+        private const int TaskPaneRightWidth = 270;   // Width for right dock
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
