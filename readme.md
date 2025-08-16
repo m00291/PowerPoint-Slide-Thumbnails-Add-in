@@ -25,7 +25,7 @@ Code Signing Certificate
 
 PowerPoint 投影片縮圖插件
 -----------------------
-**版本：** 1.1.0  
+**版本：** 1.2.0  
 **GitHub：** https://github.com/m00291/PowerPointSlideThumbnailsAddIn
 
 簡介
@@ -48,7 +48,7 @@ PowerPoint 投影片縮圖插件
 
 PowerPoint Slide Thumbnails Add-in
 ----------------------------------
-**Version:** 1.1.0  
+**Version:** 1.2.0  
 **GitHub:** https://github.com/m00291/PowerPointSlideThumbnailsAddIn
 
 Overview
