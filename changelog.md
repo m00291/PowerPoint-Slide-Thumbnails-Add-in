@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2025-12-30
+### Changed
+- UI update
+
 ## [1.2.0] - 2025-08-16
 ### Added
 - Resize the task pane

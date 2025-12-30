@@ -4,7 +4,7 @@
 
 What is PowerPoint Slide Thumbnails Add-in?
 -------------------------------------------
-Keep slide thumbnails always visible in Presenter View  
+Show Slide Thumbnails in Presenter View  
 投影片縮圖在簡報者檢視中常駐
 
 
@@ -25,12 +25,12 @@ Code Signing Certificate
 
 PowerPoint 投影片縮圖插件
 -----------------------
-**版本：** 1.2.0  
+**版本：** 1.3.0  
 **GitHub：** https://github.com/m00291/PowerPointSlideThumbnailsAddIn
 
 簡介
 ----
-新版 PowerPoint（2013 及之後版本）將經典 2003 簡報者檢視中的常駐投影片縮圖，改為暫時性縮圖格，導致需要額外點擊操作，且在跳轉投影片後會自動關閉。PowerPoint 投影片縮圖插件 透過使用投影片瀏覽模式（Slide Sorter View），讓您能夠隨時保持投影片縮圖可見。安裝插件後，您只需點擊任一縮圖，即可立即跳至該投影片，大幅提升簡報操作的便利性。
+重現經典 2003 簡報者檢視中的常駐投影片縮圖。
 
 移除插件
 -------
@@ -48,12 +48,12 @@ PowerPoint 投影片縮圖插件
 
 PowerPoint Slide Thumbnails Add-in
 ----------------------------------
-**Version:** 1.2.0  
+**Version:** 1.3.0  
 **GitHub:** https://github.com/m00291/PowerPointSlideThumbnailsAddIn
 
 Overview
 --------
-Modern versions of PowerPoint (2013 and later) replaced the classic 2003 Presenter View's always-visible slide thumbnails with a temporary grid, requiring extra clicks to navigate and automatically closing after a slide jump. The **PowerPoint Slide Thumbnails Add-in** restores the classic workflow by using the Slide Sorter View, allowing you to keep slide thumbnails visible at all times. With this add-in, you can instantly jump to any slide simply by clicking its thumbnail, streamlining slide navigation during your presentations.
+Restore the classic 2003 Presenter View to show slide thumbnails.
 
 Uninstallation
 --------------

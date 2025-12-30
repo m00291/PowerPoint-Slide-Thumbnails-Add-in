@@ -529,7 +529,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:PowerPointSlideThumbnailsAddIn, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:PowerPointSlideThumbnailsAddIn, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_E65848476B7C46F0BBA9825B81CC60B8"
@@ -654,15 +654,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PowerPoint Slide Thumbnails Add-in"
-        "ProductCode" = "8:{D7756FEB-2ADB-442C-80CF-4D68BF3410BE}"
-        "PackageCode" = "8:{5B31B3C6-6D8E-4153-938E-BDD22A552CB7}"
+        "ProductCode" = "8:{419CF96D-4038-4506-839D-B6329CA8B1D7}"
+        "PackageCode" = "8:{54C701D4-3C6E-4F36-82C5-80862B767390}"
         "UpgradeCode" = "8:{F37DEE13-2AF8-4096-A97A-AC7CA925E9FE}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.2.0"
+        "ProductVersion" = "8:1.3.0"
         "Manufacturer" = "8:Microsoft Office Add-ins"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
