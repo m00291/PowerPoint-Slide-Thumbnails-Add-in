@@ -20,6 +20,7 @@ namespace PowerPointSlideThumbnailsAddIn
         private SlideNavigationPane navigationPaneControl;
         private bool isSyncingSelection = false;
         public int currentSlideIndex = 1;
+        public int originalZoom = 100;
 
         private const int TaskPaneBottomHeight = 130; // Height for bottom dock
         private const int TaskPaneRightWidth = 270;   // Width for right dock
@@ -62,6 +63,8 @@ namespace PowerPointSlideThumbnailsAddIn
 
                 var window = currentPresentation.Windows[1];
                 window.ViewType = PowerPoint.PpViewType.ppViewSlideSorter;
+                originalZoom = window.View.Zoom;
+                window.View.Zoom = 130;
 
                 // Show navigation task pane
                 if (navigationPaneControl == null)
@@ -78,8 +81,10 @@ namespace PowerPointSlideThumbnailsAddIn
                 if (navigationTaskPane == null)
                 {
                     navigationTaskPane = this.CustomTaskPanes.Add(navigationPaneControl, " ");
-                    navigationTaskPane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
-                    navigationTaskPane.Width = TaskPaneRightWidth;
+                    //navigationTaskPane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionRight;
+                    //navigationTaskPane.Width = TaskPaneRightWidth;
+                    navigationTaskPane.DockPosition = Microsoft.Office.Core.MsoCTPDockPosition.msoCTPDockPositionBottom;
+                    navigationTaskPane.Height = TaskPaneBottomHeight;
                 }
                 navigationTaskPane.Visible = true;
 
@@ -204,6 +209,7 @@ namespace PowerPointSlideThumbnailsAddIn
                 if (currentPresentation != null)
                 {
                     var window = currentPresentation.Windows[1];
+                    window.View.Zoom = originalZoom;
                     window.ViewType = PowerPoint.PpViewType.ppViewNormal;
                 }
                 // Hide and remove navigation task pane

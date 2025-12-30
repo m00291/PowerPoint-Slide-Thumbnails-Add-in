@@ -203,8 +203,8 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnEnd.Top = btnBackToGrid.Bottom + btngap;
             this.btnEnd.TextAlign = ContentAlignment.MiddleCenter;
             this.btnEnd.Padding = new Padding(0, 10, 0, 0);
-            this.btnEnd.FlatStyle = FlatStyle.Flat;
-            this.btnEnd.FlatAppearance.BorderSize = 0;
+            //this.btnEnd.FlatStyle = FlatStyle.Flat;
+            //this.btnEnd.FlatAppearance.BorderSize = 0;
             this.btnEnd.Click += (s, e) => EndButtonClicked?.Invoke(this, EventArgs.Empty);
 
             toolTipEnd.SetToolTip(this.btnEnd, Properties.Strings.toolTipEnd);
@@ -235,8 +235,8 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnAbout.Left = this.Width - taskpanerightpadding - btnAboutWidth;
             this.btnAbout.Top = btnEnd.Bottom + 100;
             this.btnAbout.TextAlign = ContentAlignment.MiddleCenter;
-            this.btnAbout.FlatStyle = FlatStyle.Flat;
-            this.btnAbout.FlatAppearance.BorderSize = 0;
+            //this.btnAbout.FlatStyle = FlatStyle.Flat;
+            //this.btnAbout.FlatAppearance.BorderSize = 0;
             this.btnAbout.Click += (s, e) => btnAbout_Click?.Invoke(this, EventArgs.Empty);
 
             toolTipAbout.SetToolTip(this.btnAbout, Properties.Strings.toolTipAbout);
@@ -269,8 +269,8 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnDockBottom.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             this.btnDockBottom.TextAlign = ContentAlignment.MiddleCenter;
             this.btnDockBottom.Padding = new Padding(0, 5, 0, 0);
-            this.btnDockBottom.FlatStyle = FlatStyle.Flat;
-            this.btnDockBottom.FlatAppearance.BorderSize = 0;
+            //this.btnDockBottom.FlatStyle = FlatStyle.Flat;
+            //this.btnDockBottom.FlatAppearance.BorderSize = 0;
             this.btnDockBottom.Click += (s, e) => DockToBottomClicked?.Invoke(this, EventArgs.Empty);
 
             toolTipDockBottom.SetToolTip(this.btnDockBottom, Properties.Strings.toolTipDockBottom);
@@ -294,8 +294,8 @@ namespace PowerPointSlideThumbnailsAddIn
             this.btnDockRight.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             this.btnDockRight.TextAlign = ContentAlignment.MiddleCenter;
             this.btnDockRight.Padding = new Padding(0, 5, 0, 0);
-            this.btnDockRight.FlatStyle = FlatStyle.Flat;
-            this.btnDockRight.FlatAppearance.BorderSize = 0;
+            //this.btnDockRight.FlatStyle = FlatStyle.Flat;
+            //this.btnDockRight.FlatAppearance.BorderSize = 0;
             this.btnDockRight.Visible = false;
             this.btnDockRight.Click += (s, e) => DockToRightClicked?.Invoke(this, EventArgs.Empty);
 
